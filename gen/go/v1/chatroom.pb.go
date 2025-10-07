@@ -242,6 +242,7 @@ func (x *CreateChatRequest) GetDescription() string {
 type CreateChatResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	RoomId        string                 `protobuf:"bytes,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -279,6 +280,13 @@ func (*CreateChatResponse) Descriptor() ([]byte, []int) {
 func (x *CreateChatResponse) GetRoomId() string {
 	if x != nil {
 		return x.RoomId
+	}
+	return ""
+}
+
+func (x *CreateChatResponse) GetName() string {
+	if x != nil {
+		return x.Name
 	}
 	return ""
 }
@@ -397,9 +405,10 @@ const file_chatroom_proto_rawDesc = "" +
 	"\aroom_id\x18\x01 \x01(\tR\x06roomId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\"-\n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\"A\n" +
 	"\x12CreateChatResponse\x12\x17\n" +
-	"\aroom_id\x18\x01 \x01(\tR\x06roomId\"F\n" +
+	"\aroom_id\x18\x01 \x01(\tR\x06roomId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"F\n" +
 	"\x15MessageHistoryRequest\x12\x17\n" +
 	"\aroom_id\x18\x01 \x01(\tR\x06roomId\x12\x14\n" +
 	"\x05limit\x18\x02 \x01(\x05R\x05limit\"E\n" +
