@@ -17,6 +17,17 @@ type ChatMessage struct {
 	Timestamp int64
 }
 
+type CreateChatRequest struct {
+	RoomID      string
+	UserID      string
+	Name        string
+	Description string
+}
+
+type CreateChatResponse struct {
+	RoomID string
+}
+
 // Создание нового сообщения
 func NewChatMessage(roomID, userID, username, content string, msgType pb.MessageType) *ChatMessage {
 	return &ChatMessage{

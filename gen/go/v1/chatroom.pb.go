@@ -170,29 +170,31 @@ func (x *ChatMessage) GetTimestamp() int64 {
 	return 0
 }
 
-// Инфа о пользователе
-type User struct {
+// Создание чата
+type CreateChatRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
+	RoomId        string                 `protobuf:"bytes,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *User) Reset() {
-	*x = User{}
+func (x *CreateChatRequest) Reset() {
+	*x = CreateChatRequest{}
 	mi := &file_chatroom_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *User) String() string {
+func (x *CreateChatRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*User) ProtoMessage() {}
+func (*CreateChatRequest) ProtoMessage() {}
 
-func (x *User) ProtoReflect() protoreflect.Message {
+func (x *CreateChatRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_chatroom_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -204,80 +206,77 @@ func (x *User) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use User.ProtoReflect.Descriptor instead.
-func (*User) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateChatRequest.ProtoReflect.Descriptor instead.
+func (*CreateChatRequest) Descriptor() ([]byte, []int) {
 	return file_chatroom_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *User) GetId() string {
+func (x *CreateChatRequest) GetRoomId() string {
 	if x != nil {
-		return x.Id
+		return x.RoomId
 	}
 	return ""
 }
 
-func (x *User) GetUsername() string {
-	if x != nil {
-		return x.Username
-	}
-	return ""
-}
-
-// Сообщение для установления соединения
-type ConnectRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
-	RoomId        string                 `protobuf:"bytes,3,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ConnectRequest) Reset() {
-	*x = ConnectRequest{}
-	mi := &file_chatroom_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ConnectRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ConnectRequest) ProtoMessage() {}
-
-func (x *ConnectRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_chatroom_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ConnectRequest.ProtoReflect.Descriptor instead.
-func (*ConnectRequest) Descriptor() ([]byte, []int) {
-	return file_chatroom_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *ConnectRequest) GetUserId() string {
+func (x *CreateChatRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *ConnectRequest) GetUsername() string {
+func (x *CreateChatRequest) GetName() string {
 	if x != nil {
-		return x.Username
+		return x.Name
 	}
 	return ""
 }
 
-func (x *ConnectRequest) GetRoomId() string {
+func (x *CreateChatRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+type CreateChatResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RoomId        string                 `protobuf:"bytes,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateChatResponse) Reset() {
+	*x = CreateChatResponse{}
+	mi := &file_chatroom_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateChatResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateChatResponse) ProtoMessage() {}
+
+func (x *CreateChatResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_chatroom_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateChatResponse.ProtoReflect.Descriptor instead.
+func (*CreateChatResponse) Descriptor() ([]byte, []int) {
+	return file_chatroom_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CreateChatResponse) GetRoomId() string {
 	if x != nil {
 		return x.RoomId
 	}
@@ -393,14 +392,14 @@ const file_chatroom_proto_rawDesc = "" +
 	"\auser_id\x18\x04 \x01(\tR\x06userId\x12\x1a\n" +
 	"\busername\x18\x05 \x01(\tR\busername\x12\x18\n" +
 	"\acontent\x18\x06 \x01(\tR\acontent\x12\x1c\n" +
-	"\ttimestamp\x18\a \x01(\x03R\ttimestamp\"2\n" +
-	"\x04User\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
-	"\busername\x18\x02 \x01(\tR\busername\"^\n" +
-	"\x0eConnectRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1a\n" +
-	"\busername\x18\x02 \x01(\tR\busername\x12\x17\n" +
-	"\aroom_id\x18\x03 \x01(\tR\x06roomId\"F\n" +
+	"\ttimestamp\x18\a \x01(\x03R\ttimestamp\"{\n" +
+	"\x11CreateChatRequest\x12\x17\n" +
+	"\aroom_id\x18\x01 \x01(\tR\x06roomId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\"-\n" +
+	"\x12CreateChatResponse\x12\x17\n" +
+	"\aroom_id\x18\x01 \x01(\tR\x06roomId\"F\n" +
 	"\x15MessageHistoryRequest\x12\x17\n" +
 	"\aroom_id\x18\x01 \x01(\tR\x06roomId\x12\x14\n" +
 	"\x05limit\x18\x02 \x01(\x05R\x05limit\"E\n" +
@@ -411,9 +410,11 @@ const file_chatroom_proto_rawDesc = "" +
 	"\vUSER_JOINED\x10\x01\x12\r\n" +
 	"\tUSER_LEFT\x10\x02\x12\x10\n" +
 	"\fROOM_CREATED\x10\x03\x12\t\n" +
-	"\x05ERROR\x10\x042\x8a\x01\n" +
+	"\x05ERROR\x10\x042\xc7\x01\n" +
 	"\vChatService\x12/\n" +
-	"\aConnect\x12\x0f.v1.ChatMessage\x1a\x0f.v1.ChatMessage(\x010\x01\x12J\n" +
+	"\aConnect\x12\x0f.v1.ChatMessage\x1a\x0f.v1.ChatMessage(\x010\x01\x12;\n" +
+	"\n" +
+	"CreateChat\x12\x15.v1.CreateChatRequest\x1a\x16.v1.CreateChatResponse\x12J\n" +
 	"\x11GetMessageHistory\x12\x19.v1.MessageHistoryRequest\x1a\x1a.v1.MessageHistoryResponseB\"Z github.com/Lemper29/ChatRoom/genb\x06proto3"
 
 var (
@@ -433,8 +434,8 @@ var file_chatroom_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_chatroom_proto_goTypes = []any{
 	(MessageType)(0),               // 0: v1.MessageType
 	(*ChatMessage)(nil),            // 1: v1.ChatMessage
-	(*User)(nil),                   // 2: v1.User
-	(*ConnectRequest)(nil),         // 3: v1.ConnectRequest
+	(*CreateChatRequest)(nil),      // 2: v1.CreateChatRequest
+	(*CreateChatResponse)(nil),     // 3: v1.CreateChatResponse
 	(*MessageHistoryRequest)(nil),  // 4: v1.MessageHistoryRequest
 	(*MessageHistoryResponse)(nil), // 5: v1.MessageHistoryResponse
 }
@@ -442,11 +443,13 @@ var file_chatroom_proto_depIdxs = []int32{
 	0, // 0: v1.ChatMessage.type:type_name -> v1.MessageType
 	1, // 1: v1.MessageHistoryResponse.messages:type_name -> v1.ChatMessage
 	1, // 2: v1.ChatService.Connect:input_type -> v1.ChatMessage
-	4, // 3: v1.ChatService.GetMessageHistory:input_type -> v1.MessageHistoryRequest
-	1, // 4: v1.ChatService.Connect:output_type -> v1.ChatMessage
-	5, // 5: v1.ChatService.GetMessageHistory:output_type -> v1.MessageHistoryResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
+	2, // 3: v1.ChatService.CreateChat:input_type -> v1.CreateChatRequest
+	4, // 4: v1.ChatService.GetMessageHistory:input_type -> v1.MessageHistoryRequest
+	1, // 5: v1.ChatService.Connect:output_type -> v1.ChatMessage
+	3, // 6: v1.ChatService.CreateChat:output_type -> v1.CreateChatResponse
+	5, // 7: v1.ChatService.GetMessageHistory:output_type -> v1.MessageHistoryResponse
+	5, // [5:8] is the sub-list for method output_type
+	2, // [2:5] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
 	2, // [2:2] is the sub-list for extension extendee
 	0, // [0:2] is the sub-list for field type_name

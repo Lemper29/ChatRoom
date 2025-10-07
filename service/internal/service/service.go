@@ -4,16 +4,20 @@ import (
 	"io"
 	"log"
 
+	"github.com/Lemper29/ChatRoom/chat-service/internal/storage"
 	"github.com/Lemper29/ChatRoom/chat-service/pkg/models"
 	pb "github.com/Lemper29/ChatRoom/gen/go/v1"
 )
 
 type service struct {
 	pb.UnimplementedChatServiceServer
+	repo storage.Storage
 }
 
-func NewService() {
-	return
+func NewService(repo storage.Storage) *service {
+	return &service{
+		repo: repo,
+	}
 }
 
 func (s *service) Connect(stream pb.ChatService_ConnectServer) error {

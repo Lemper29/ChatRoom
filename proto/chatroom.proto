@@ -24,22 +24,25 @@ message ChatMessage {
   int64 timestamp = 7;
 }
 
-// Инфа о пользователе
-message User {
-    string id = 1;
-    string username = 2;
+// Создание чата
+message CreateChatRequest {
+  string room_id = 1;
+  string user_id = 2;
+  string name = 3;
+  string description = 4;
 }
 
-// Сообщение для установления соединения
-message ConnectRequest {
-  string user_id = 1;
-  string username = 2;
-  string room_id = 3;
+message CreateChatResponse {
+  string room_id = 1;
 }
 
 // Сервис
 service ChatService {
+  // Stream RPC для connect
   rpc Connect(stream ChatMessage) returns (stream ChatMessage);
+
+  // Unary RPC для создания чатов
+  rpc CreateChat(CreateChatRequest) returns (CreateChatResponse);
   
   // Unary RPC для получения истории сообщений (опционально)
   rpc GetMessageHistory(MessageHistoryRequest) returns (MessageHistoryResponse);
