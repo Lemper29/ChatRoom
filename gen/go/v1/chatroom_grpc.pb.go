@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	ChatService_Connect_FullMethodName           = "/v1.ChatService/Connect"
+	ChatService_CreateChat_FullMethodName        = "/v1.ChatService/CreateChat"
 	ChatService_GetMessageHistory_FullMethodName = "/v1.ChatService/GetMessageHistory"
 )
 
@@ -29,7 +30,10 @@ const (
 //
 // Сервис
 type ChatServiceClient interface {
+	// Stream RPC для connect
 	Connect(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[ChatMessage, ChatMessage], error)
+	// Unary RPC для создания чатов
+	CreateChat(ctx context.Context, in *CreateChatRequest, opts ...grpc.CallOption) (*CreateChatResponse, error)
 	// Unary RPC для получения истории сообщений (опционально)
 	GetMessageHistory(ctx context.Context, in *MessageHistoryRequest, opts ...grpc.CallOption) (*MessageHistoryResponse, error)
 }
@@ -55,6 +59,16 @@ func (c *chatServiceClient) Connect(ctx context.Context, opts ...grpc.CallOption
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type ChatService_ConnectClient = grpc.BidiStreamingClient[ChatMessage, ChatMessage]
 
+func (c *chatServiceClient) CreateChat(ctx context.Context, in *CreateChatRequest, opts ...grpc.CallOption) (*CreateChatResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateChatResponse)
+	err := c.cc.Invoke(ctx, ChatService_CreateChat_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *chatServiceClient) GetMessageHistory(ctx context.Context, in *MessageHistoryRequest, opts ...grpc.CallOption) (*MessageHistoryResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(MessageHistoryResponse)
@@ -71,7 +85,10 @@ func (c *chatServiceClient) GetMessageHistory(ctx context.Context, in *MessageHi
 //
 // Сервис
 type ChatServiceServer interface {
+	// Stream RPC для connect
 	Connect(grpc.BidiStreamingServer[ChatMessage, ChatMessage]) error
+	// Unary RPC для создания чатов
+	CreateChat(context.Context, *CreateChatRequest) (*CreateChatResponse, error)
 	// Unary RPC для получения истории сообщений (опционально)
 	GetMessageHistory(context.Context, *MessageHistoryRequest) (*MessageHistoryResponse, error)
 	mustEmbedUnimplementedChatServiceServer()
@@ -86,6 +103,9 @@ type UnimplementedChatServiceServer struct{}
 
 func (UnimplementedChatServiceServer) Connect(grpc.BidiStreamingServer[ChatMessage, ChatMessage]) error {
 	return status.Errorf(codes.Unimplemented, "method Connect not implemented")
+}
+func (UnimplementedChatServiceServer) CreateChat(context.Context, *CreateChatRequest) (*CreateChatResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateChat not implemented")
 }
 func (UnimplementedChatServiceServer) GetMessageHistory(context.Context, *MessageHistoryRequest) (*MessageHistoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMessageHistory not implemented")
@@ -118,6 +138,24 @@ func _ChatService_Connect_Handler(srv interface{}, stream grpc.ServerStream) err
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type ChatService_ConnectServer = grpc.BidiStreamingServer[ChatMessage, ChatMessage]
 
+func _ChatService_CreateChat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateChatRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChatServiceServer).CreateChat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChatService_CreateChat_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChatServiceServer).CreateChat(ctx, req.(*CreateChatRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ChatService_GetMessageHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MessageHistoryRequest)
 	if err := dec(in); err != nil {
@@ -143,6 +181,10 @@ var ChatService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "v1.ChatService",
 	HandlerType: (*ChatServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateChat",
+			Handler:    _ChatService_CreateChat_Handler,
+		},
 		{
 			MethodName: "GetMessageHistory",
 			Handler:    _ChatService_GetMessageHistory_Handler,
