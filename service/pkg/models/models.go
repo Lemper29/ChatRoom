@@ -17,6 +17,11 @@ type ChatMessage struct {
 	Timestamp int64
 }
 
+type ChatRoom struct {
+	ID   string `gorm:"primaryKey" json:"id"`
+	Name string `gorm:"not null" json:"name"`
+}
+
 type CreateChatRequest struct {
 	RoomID      string
 	UserID      string
@@ -26,6 +31,7 @@ type CreateChatRequest struct {
 
 type CreateChatResponse struct {
 	RoomID string
+	Name   string
 }
 
 // Создание нового сообщения

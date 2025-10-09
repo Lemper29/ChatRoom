@@ -4,22 +4,26 @@ import (
 	"fmt"
 	"net"
 
+	"github.com/Lemper29/ChatRoom/chat-service/internal/service"
+	"github.com/Lemper29/ChatRoom/chat-service/internal/storage"
 	pb "github.com/Lemper29/ChatRoom/gen/go/v1"
 	"google.golang.org/grpc"
 )
 
-type server struct {
+type Server struct {
 	pb.UnimplementedChatServiceServer
-	addr string
+	service *service.Service
+	addr    string
 }
 
-func NewGrpcServer(addr string) *server {
-	return &server{
-		addr: addr,
+func NewGrpcServer(addr string, storage storage.Storage) *Server {
+	return &Server{
+		addr:    addr,
+		service: service.NewService(storage),
 	}
 }
 
-func (s *server) Server() error {
+func (s *Server) Server() error {
 	lis, err := net.Listen("tcp", s.addr)
 	if err != nil {
 		return fmt.Errorf("failed to listen: %v", err)

@@ -3,8 +3,9 @@ module github.com/Lemper29/ChatRoom/chat-service
 go 1.25.1
 
 require (
-	github.com/Lemper29/ChatRoom v0.0.0-20251005131034-e79e8aac02bb
+	github.com/Lemper29/ChatRoom v0.0.0-20251007122616-713807057ca8
 	google.golang.org/grpc v1.75.1
+	gorm.io/gorm v1.25.10
 )
 
 require (
@@ -16,7 +17,6 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	golang.org/x/crypto v0.39.0 // indirect
 	golang.org/x/sync v0.15.0 // indirect
-	gorm.io/gorm v1.25.10 // indirect
 )
 
 require (

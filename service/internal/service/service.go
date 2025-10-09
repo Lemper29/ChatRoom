@@ -1,6 +1,8 @@
 package service
 
 import (
+	"context"
+	"fmt"
 	"io"
 	"log"
 
@@ -9,18 +11,18 @@ import (
 	pb "github.com/Lemper29/ChatRoom/gen/go/v1"
 )
 
-type service struct {
+type Service struct {
 	pb.UnimplementedChatServiceServer
 	repo storage.Storage
 }
 
-func NewService(repo storage.Storage) *service {
-	return &service{
+func NewService(repo storage.Storage) *Service {
+	return &Service{
 		repo: repo,
 	}
 }
 
-func (s *service) Connect(stream pb.ChatService_ConnectServer) error {
+func (s *Service) Connect(stream pb.ChatService_ConnectServer) error {
 	for {
 		firstMsg, err := stream.Recv()
 		if err == io.EOF {
@@ -55,4 +57,25 @@ func (s *service) Connect(stream pb.ChatService_ConnectServer) error {
 			return err
 		}
 	}
+}
+
+func (s *Service) CreateChat(ctx context.Context, req *pb.CreateChatRequest) (*pb.CreateChatResponse, error) {
+	reqCreateChat := models.CreateChatRequest{
+		RoomID:      req.RoomId,
+		UserID:      req.UserId,
+		Name:        req.Name,
+		Description: req.Description,
+	}
+
+	createChat, err := s.repo.CreateChat(ctx, &reqCreateChat)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create chat room: %w", err)
+	}
+
+	resCreateChat := pb.CreateChatResponse{
+		RoomId: createChat.RoomID,
+		Name:   createChat.Name,
+	}
+
+	return &resCreateChat, nil
 }
