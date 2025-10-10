@@ -35,34 +35,34 @@ jobs:
         go-version: '1.25'
 
     - name: Cache Go modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
-        path: |
-          ~/.cache/go-build
-          ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('service/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-go-
+       path: |
+        ~/.cache/go-build
+        ~/go/pkg/mod
+       key: ${{ runner.os }}-go-${{ hashFiles('service/go.sum') }}
+       restore-keys: |
+        ${{ runner.os }}-go-
 
     - name: Download dependencies
       run: |
-        cd service
+        cd chat-service
         go mod download
 
     - name: Run tests
       run: |
-        cd service
+        cd chat-service
         go test -v -race ./...
       env:
         DB_HOST: localhost
         DB_PORT: 5432
         DB_USER: postgres
         DB_PASSWORD: postgres
-        DB_NAME: postges
+        DB_NAME: postgres
 
     - name: Run vet
       run: |
-        cd service
+        cd chat-service
         go vet ./...
 
   build:
@@ -81,10 +81,10 @@ jobs:
 
     - name: Build server
       run: |
-        cd service
+        cd chat-service
         go build -v ./cmd/server
 
     - name: Build all packages
       run: |
-        cd service
+        cd chat-service
         go build -v ./...
