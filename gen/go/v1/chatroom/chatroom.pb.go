@@ -2,11 +2,12 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v6.32.1
-// source: chatroom.proto
+// source: chatroom/chatroom.proto
 
-package gen
+package chatroom
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -61,11 +62,11 @@ func (x MessageType) String() string {
 }
 
 func (MessageType) Descriptor() protoreflect.EnumDescriptor {
-	return file_chatroom_proto_enumTypes[0].Descriptor()
+	return file_chatroom_chatroom_proto_enumTypes[0].Descriptor()
 }
 
 func (MessageType) Type() protoreflect.EnumType {
-	return &file_chatroom_proto_enumTypes[0]
+	return &file_chatroom_chatroom_proto_enumTypes[0]
 }
 
 func (x MessageType) Number() protoreflect.EnumNumber {
@@ -74,14 +75,14 @@ func (x MessageType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use MessageType.Descriptor instead.
 func (MessageType) EnumDescriptor() ([]byte, []int) {
-	return file_chatroom_proto_rawDescGZIP(), []int{0}
+	return file_chatroom_chatroom_proto_rawDescGZIP(), []int{0}
 }
 
 // Сообщение чата
 type ChatMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Type          MessageType            `protobuf:"varint,2,opt,name=type,proto3,enum=v1.MessageType" json:"type,omitempty"`
+	Type          MessageType            `protobuf:"varint,2,opt,name=type,proto3,enum=chatroom.MessageType" json:"type,omitempty"`
 	RoomId        string                 `protobuf:"bytes,3,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
 	UserId        string                 `protobuf:"bytes,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Username      string                 `protobuf:"bytes,5,opt,name=username,proto3" json:"username,omitempty"`
@@ -93,7 +94,7 @@ type ChatMessage struct {
 
 func (x *ChatMessage) Reset() {
 	*x = ChatMessage{}
-	mi := &file_chatroom_proto_msgTypes[0]
+	mi := &file_chatroom_chatroom_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -105,7 +106,7 @@ func (x *ChatMessage) String() string {
 func (*ChatMessage) ProtoMessage() {}
 
 func (x *ChatMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_chatroom_proto_msgTypes[0]
+	mi := &file_chatroom_chatroom_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -118,7 +119,7 @@ func (x *ChatMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChatMessage.ProtoReflect.Descriptor instead.
 func (*ChatMessage) Descriptor() ([]byte, []int) {
-	return file_chatroom_proto_rawDescGZIP(), []int{0}
+	return file_chatroom_chatroom_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ChatMessage) GetId() string {
@@ -183,7 +184,7 @@ type CreateChatRequest struct {
 
 func (x *CreateChatRequest) Reset() {
 	*x = CreateChatRequest{}
-	mi := &file_chatroom_proto_msgTypes[1]
+	mi := &file_chatroom_chatroom_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -195,7 +196,7 @@ func (x *CreateChatRequest) String() string {
 func (*CreateChatRequest) ProtoMessage() {}
 
 func (x *CreateChatRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_chatroom_proto_msgTypes[1]
+	mi := &file_chatroom_chatroom_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -208,7 +209,7 @@ func (x *CreateChatRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateChatRequest.ProtoReflect.Descriptor instead.
 func (*CreateChatRequest) Descriptor() ([]byte, []int) {
-	return file_chatroom_proto_rawDescGZIP(), []int{1}
+	return file_chatroom_chatroom_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateChatRequest) GetRoomId() string {
@@ -249,7 +250,7 @@ type CreateChatResponse struct {
 
 func (x *CreateChatResponse) Reset() {
 	*x = CreateChatResponse{}
-	mi := &file_chatroom_proto_msgTypes[2]
+	mi := &file_chatroom_chatroom_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -261,7 +262,7 @@ func (x *CreateChatResponse) String() string {
 func (*CreateChatResponse) ProtoMessage() {}
 
 func (x *CreateChatResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_chatroom_proto_msgTypes[2]
+	mi := &file_chatroom_chatroom_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -274,7 +275,7 @@ func (x *CreateChatResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateChatResponse.ProtoReflect.Descriptor instead.
 func (*CreateChatResponse) Descriptor() ([]byte, []int) {
-	return file_chatroom_proto_rawDescGZIP(), []int{2}
+	return file_chatroom_chatroom_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateChatResponse) GetRoomId() string {
@@ -302,7 +303,7 @@ type MessageHistoryRequest struct {
 
 func (x *MessageHistoryRequest) Reset() {
 	*x = MessageHistoryRequest{}
-	mi := &file_chatroom_proto_msgTypes[3]
+	mi := &file_chatroom_chatroom_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -314,7 +315,7 @@ func (x *MessageHistoryRequest) String() string {
 func (*MessageHistoryRequest) ProtoMessage() {}
 
 func (x *MessageHistoryRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_chatroom_proto_msgTypes[3]
+	mi := &file_chatroom_chatroom_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -327,7 +328,7 @@ func (x *MessageHistoryRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MessageHistoryRequest.ProtoReflect.Descriptor instead.
 func (*MessageHistoryRequest) Descriptor() ([]byte, []int) {
-	return file_chatroom_proto_rawDescGZIP(), []int{3}
+	return file_chatroom_chatroom_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *MessageHistoryRequest) GetRoomId() string {
@@ -353,7 +354,7 @@ type MessageHistoryResponse struct {
 
 func (x *MessageHistoryResponse) Reset() {
 	*x = MessageHistoryResponse{}
-	mi := &file_chatroom_proto_msgTypes[4]
+	mi := &file_chatroom_chatroom_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -365,7 +366,7 @@ func (x *MessageHistoryResponse) String() string {
 func (*MessageHistoryResponse) ProtoMessage() {}
 
 func (x *MessageHistoryResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_chatroom_proto_msgTypes[4]
+	mi := &file_chatroom_chatroom_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -378,7 +379,7 @@ func (x *MessageHistoryResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MessageHistoryResponse.ProtoReflect.Descriptor instead.
 func (*MessageHistoryResponse) Descriptor() ([]byte, []int) {
-	return file_chatroom_proto_rawDescGZIP(), []int{4}
+	return file_chatroom_chatroom_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *MessageHistoryResponse) GetMessages() []*ChatMessage {
@@ -388,14 +389,14 @@ func (x *MessageHistoryResponse) GetMessages() []*ChatMessage {
 	return nil
 }
 
-var File_chatroom_proto protoreflect.FileDescriptor
+var File_chatroom_chatroom_proto protoreflect.FileDescriptor
 
-const file_chatroom_proto_rawDesc = "" +
+const file_chatroom_chatroom_proto_rawDesc = "" +
 	"\n" +
-	"\x0echatroom.proto\x12\x02v1\"\xc8\x01\n" +
+	"\x17chatroom/chatroom.proto\x12\bchatroom\x1a\x1cgoogle/api/annotations.proto\"\xce\x01\n" +
 	"\vChatMessage\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12#\n" +
-	"\x04type\x18\x02 \x01(\x0e2\x0f.v1.MessageTypeR\x04type\x12\x17\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12)\n" +
+	"\x04type\x18\x02 \x01(\x0e2\x15.chatroom.MessageTypeR\x04type\x12\x17\n" +
 	"\aroom_id\x18\x03 \x01(\tR\x06roomId\x12\x17\n" +
 	"\auser_id\x18\x04 \x01(\tR\x06userId\x12\x1a\n" +
 	"\busername\x18\x05 \x01(\tR\busername\x12\x18\n" +
@@ -411,52 +412,52 @@ const file_chatroom_proto_rawDesc = "" +
 	"\x04name\x18\x02 \x01(\tR\x04name\"F\n" +
 	"\x15MessageHistoryRequest\x12\x17\n" +
 	"\aroom_id\x18\x01 \x01(\tR\x06roomId\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\"E\n" +
-	"\x16MessageHistoryResponse\x12+\n" +
-	"\bmessages\x18\x01 \x03(\v2\x0f.v1.ChatMessageR\bmessages*\\\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\"K\n" +
+	"\x16MessageHistoryResponse\x121\n" +
+	"\bmessages\x18\x01 \x03(\v2\x15.chatroom.ChatMessageR\bmessages*\\\n" +
 	"\vMessageType\x12\x10\n" +
 	"\fUSER_MESSAGE\x10\x00\x12\x0f\n" +
 	"\vUSER_JOINED\x10\x01\x12\r\n" +
 	"\tUSER_LEFT\x10\x02\x12\x10\n" +
 	"\fROOM_CREATED\x10\x03\x12\t\n" +
-	"\x05ERROR\x10\x042\xc7\x01\n" +
-	"\vChatService\x12/\n" +
-	"\aConnect\x12\x0f.v1.ChatMessage\x1a\x0f.v1.ChatMessage(\x010\x01\x12;\n" +
+	"\x05ERROR\x10\x042\xa5\x02\n" +
+	"\vChatService\x12;\n" +
+	"\aConnect\x12\x15.chatroom.ChatMessage\x1a\x15.chatroom.ChatMessage(\x010\x01\x12\\\n" +
 	"\n" +
-	"CreateChat\x12\x15.v1.CreateChatRequest\x1a\x16.v1.CreateChatResponse\x12J\n" +
-	"\x11GetMessageHistory\x12\x19.v1.MessageHistoryRequest\x1a\x1a.v1.MessageHistoryResponseB\"Z github.com/Lemper29/ChatRoom/genb\x06proto3"
+	"CreateChat\x12\x1b.chatroom.CreateChatRequest\x1a\x1c.chatroom.CreateChatResponse\"\x13\x82\xd3\xe4\x93\x02\r:\x01*\"\b/v1/chat\x12{\n" +
+	"\x11GetMessageHistory\x12\x1f.chatroom.MessageHistoryRequest\x1a .chatroom.MessageHistoryResponse\"#\x82\xd3\xe4\x93\x02\x1d\x12\x1b/v1/chat/{room_id}/messagesB1Z/github.com/Lemper29/ChatRoom/gen/go/v1/chatroomb\x06proto3"
 
 var (
-	file_chatroom_proto_rawDescOnce sync.Once
-	file_chatroom_proto_rawDescData []byte
+	file_chatroom_chatroom_proto_rawDescOnce sync.Once
+	file_chatroom_chatroom_proto_rawDescData []byte
 )
 
-func file_chatroom_proto_rawDescGZIP() []byte {
-	file_chatroom_proto_rawDescOnce.Do(func() {
-		file_chatroom_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_chatroom_proto_rawDesc), len(file_chatroom_proto_rawDesc)))
+func file_chatroom_chatroom_proto_rawDescGZIP() []byte {
+	file_chatroom_chatroom_proto_rawDescOnce.Do(func() {
+		file_chatroom_chatroom_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_chatroom_chatroom_proto_rawDesc), len(file_chatroom_chatroom_proto_rawDesc)))
 	})
-	return file_chatroom_proto_rawDescData
+	return file_chatroom_chatroom_proto_rawDescData
 }
 
-var file_chatroom_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_chatroom_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
-var file_chatroom_proto_goTypes = []any{
-	(MessageType)(0),               // 0: v1.MessageType
-	(*ChatMessage)(nil),            // 1: v1.ChatMessage
-	(*CreateChatRequest)(nil),      // 2: v1.CreateChatRequest
-	(*CreateChatResponse)(nil),     // 3: v1.CreateChatResponse
-	(*MessageHistoryRequest)(nil),  // 4: v1.MessageHistoryRequest
-	(*MessageHistoryResponse)(nil), // 5: v1.MessageHistoryResponse
+var file_chatroom_chatroom_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_chatroom_chatroom_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_chatroom_chatroom_proto_goTypes = []any{
+	(MessageType)(0),               // 0: chatroom.MessageType
+	(*ChatMessage)(nil),            // 1: chatroom.ChatMessage
+	(*CreateChatRequest)(nil),      // 2: chatroom.CreateChatRequest
+	(*CreateChatResponse)(nil),     // 3: chatroom.CreateChatResponse
+	(*MessageHistoryRequest)(nil),  // 4: chatroom.MessageHistoryRequest
+	(*MessageHistoryResponse)(nil), // 5: chatroom.MessageHistoryResponse
 }
-var file_chatroom_proto_depIdxs = []int32{
-	0, // 0: v1.ChatMessage.type:type_name -> v1.MessageType
-	1, // 1: v1.MessageHistoryResponse.messages:type_name -> v1.ChatMessage
-	1, // 2: v1.ChatService.Connect:input_type -> v1.ChatMessage
-	2, // 3: v1.ChatService.CreateChat:input_type -> v1.CreateChatRequest
-	4, // 4: v1.ChatService.GetMessageHistory:input_type -> v1.MessageHistoryRequest
-	1, // 5: v1.ChatService.Connect:output_type -> v1.ChatMessage
-	3, // 6: v1.ChatService.CreateChat:output_type -> v1.CreateChatResponse
-	5, // 7: v1.ChatService.GetMessageHistory:output_type -> v1.MessageHistoryResponse
+var file_chatroom_chatroom_proto_depIdxs = []int32{
+	0, // 0: chatroom.ChatMessage.type:type_name -> chatroom.MessageType
+	1, // 1: chatroom.MessageHistoryResponse.messages:type_name -> chatroom.ChatMessage
+	1, // 2: chatroom.ChatService.Connect:input_type -> chatroom.ChatMessage
+	2, // 3: chatroom.ChatService.CreateChat:input_type -> chatroom.CreateChatRequest
+	4, // 4: chatroom.ChatService.GetMessageHistory:input_type -> chatroom.MessageHistoryRequest
+	1, // 5: chatroom.ChatService.Connect:output_type -> chatroom.ChatMessage
+	3, // 6: chatroom.ChatService.CreateChat:output_type -> chatroom.CreateChatResponse
+	5, // 7: chatroom.ChatService.GetMessageHistory:output_type -> chatroom.MessageHistoryResponse
 	5, // [5:8] is the sub-list for method output_type
 	2, // [2:5] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -464,27 +465,27 @@ var file_chatroom_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_chatroom_proto_init() }
-func file_chatroom_proto_init() {
-	if File_chatroom_proto != nil {
+func init() { file_chatroom_chatroom_proto_init() }
+func file_chatroom_chatroom_proto_init() {
+	if File_chatroom_chatroom_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_chatroom_proto_rawDesc), len(file_chatroom_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_chatroom_chatroom_proto_rawDesc), len(file_chatroom_chatroom_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_chatroom_proto_goTypes,
-		DependencyIndexes: file_chatroom_proto_depIdxs,
-		EnumInfos:         file_chatroom_proto_enumTypes,
-		MessageInfos:      file_chatroom_proto_msgTypes,
+		GoTypes:           file_chatroom_chatroom_proto_goTypes,
+		DependencyIndexes: file_chatroom_chatroom_proto_depIdxs,
+		EnumInfos:         file_chatroom_chatroom_proto_enumTypes,
+		MessageInfos:      file_chatroom_chatroom_proto_msgTypes,
 	}.Build()
-	File_chatroom_proto = out.File
-	file_chatroom_proto_goTypes = nil
-	file_chatroom_proto_depIdxs = nil
+	File_chatroom_chatroom_proto = out.File
+	file_chatroom_chatroom_proto_goTypes = nil
+	file_chatroom_chatroom_proto_depIdxs = nil
 }
