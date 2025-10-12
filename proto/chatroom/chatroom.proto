@@ -1,8 +1,10 @@
 syntax = "proto3";
 
-package v1;
+package chatroom;
 
-option go_package = "github.com/Lemper29/ChatRoom/gen";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/Lemper29/ChatRoom/gen/go/v1/chatroom";
 
 // Типы сообщений
 enum MessageType {
@@ -37,18 +39,6 @@ message CreateChatResponse {
   string name = 2;
 }
 
-// Сервис
-service ChatService {
-  // Stream RPC для connect
-  rpc Connect(stream ChatMessage) returns (stream ChatMessage);
-
-  // Unary RPC для создания чатов
-  rpc CreateChat(CreateChatRequest) returns (CreateChatResponse);
-  
-  // Unary RPC для получения истории сообщений (опционально)
-  rpc GetMessageHistory(MessageHistoryRequest) returns (MessageHistoryResponse);
-}
-
 // Опционально: для получения истории сообщений
 message MessageHistoryRequest {
   string room_id = 1;
@@ -57,4 +47,25 @@ message MessageHistoryRequest {
 
 message MessageHistoryResponse {
   repeated ChatMessage messages = 1;
+}
+
+// Сервис
+service ChatService {
+  // Stream RPC для connect
+  rpc Connect(stream ChatMessage) returns (stream ChatMessage);
+
+  // Unary RPC для создания чатов
+  rpc CreateChat(CreateChatRequest) returns (CreateChatResponse) {
+    option (google.api.http) = {
+      post: "/v1/chat"
+      body: "*"
+    };
+  }
+  
+  // Unary RPC для получения истории сообщений
+  rpc GetMessageHistory(MessageHistoryRequest) returns (MessageHistoryResponse) {
+    option (google.api.http) = {
+      get: "/v1/chat/{room_id}/messages"
+    };
+  }
 }

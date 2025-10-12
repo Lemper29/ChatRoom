@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"fmt"
 	"net"
 
@@ -39,4 +40,12 @@ func (s *Server) Server() error {
 	}
 
 	return nil
+}
+
+func (s *Server) Connect(stream pb.ChatService_ConnectServer) error {
+	return s.service.Connect(stream)
+}
+
+func (s *Server) CreateChat(ctx context.Context, req *pb.CreateChatRequest) (*pb.CreateChatResponse, error) {
+	return s.service.CreateChat(ctx, req)
 }

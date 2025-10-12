@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.32.1
-// source: chatroom.proto
+// source: chatroom/chatroom.proto
 
-package gen
+package chatroom
 
 import (
 	context "context"
@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ChatService_Connect_FullMethodName           = "/v1.ChatService/Connect"
-	ChatService_CreateChat_FullMethodName        = "/v1.ChatService/CreateChat"
-	ChatService_GetMessageHistory_FullMethodName = "/v1.ChatService/GetMessageHistory"
+	ChatService_Connect_FullMethodName           = "/chatroom.ChatService/Connect"
+	ChatService_CreateChat_FullMethodName        = "/chatroom.ChatService/CreateChat"
+	ChatService_GetMessageHistory_FullMethodName = "/chatroom.ChatService/GetMessageHistory"
 )
 
 // ChatServiceClient is the client API for ChatService service.
@@ -34,7 +34,7 @@ type ChatServiceClient interface {
 	Connect(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[ChatMessage, ChatMessage], error)
 	// Unary RPC для создания чатов
 	CreateChat(ctx context.Context, in *CreateChatRequest, opts ...grpc.CallOption) (*CreateChatResponse, error)
-	// Unary RPC для получения истории сообщений (опционально)
+	// Unary RPC для получения истории сообщений
 	GetMessageHistory(ctx context.Context, in *MessageHistoryRequest, opts ...grpc.CallOption) (*MessageHistoryResponse, error)
 }
 
@@ -89,7 +89,7 @@ type ChatServiceServer interface {
 	Connect(grpc.BidiStreamingServer[ChatMessage, ChatMessage]) error
 	// Unary RPC для создания чатов
 	CreateChat(context.Context, *CreateChatRequest) (*CreateChatResponse, error)
-	// Unary RPC для получения истории сообщений (опционально)
+	// Unary RPC для получения истории сообщений
 	GetMessageHistory(context.Context, *MessageHistoryRequest) (*MessageHistoryResponse, error)
 	mustEmbedUnimplementedChatServiceServer()
 }
@@ -178,7 +178,7 @@ func _ChatService_GetMessageHistory_Handler(srv interface{}, ctx context.Context
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ChatService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "v1.ChatService",
+	ServiceName: "chatroom.ChatService",
 	HandlerType: (*ChatServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -198,5 +198,5 @@ var ChatService_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
-	Metadata: "chatroom.proto",
+	Metadata: "chatroom/chatroom.proto",
 }
