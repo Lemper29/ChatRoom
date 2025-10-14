@@ -1,0 +1,17 @@
+version: '3'
+
+tasks:
+  grpc:
+    cmds:
+      - protoc -I ./proto --go_out=./gen/go/v1 --go_opt=paths=source_relative ./proto/chatroom/chatroom.proto
+      - protoc -I ./proto --go-grpc_out=./gen/go/v1 --go-grpc_opt=paths=source_relative ./proto/chatroom/chatroom.proto
+      
+  grpc-gateway:
+    cmds:
+      - protoc -I ./proto --go_out=./gen/go/v1 --go_opt=paths=source_relative ./proto/chatroom/chatroom.proto
+      - protoc -I ./proto --go-grpc_out=./gen/go/v1 --go-grpc_opt=paths=source_relative ./proto/chatroom/chatroom.proto
+      - protoc -I ./proto --grpc-gateway_out=./gen/go/v1 --grpc-gateway_opt=paths=source_relative ./proto/chatroom/chatroom.proto
+
+  swagger:
+    cmds:
+      - protoc -I ./proto --openapiv2_out=allow_merge=true,merge_file_name=api:./gen/go/v1/chatroom/swagger ./proto/chatroom/chatroom.proto
