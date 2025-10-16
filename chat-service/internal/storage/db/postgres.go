@@ -2,7 +2,7 @@ package db
 
 import (
 	"context"
-	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/Lemper29/ChatRoom/chat-service/internal/storage"
@@ -12,10 +12,11 @@ import (
 )
 
 type PostgresDB struct {
-	db *gorm.DB
+	db     *gorm.DB
+	logger *slog.Logger
 }
 
-func NewPostgresStorage(config postgres.Config) (storage.Storage, error) {
+func NewPostgresStorage(config postgres.Config, logger *slog.Logger) (storage.Storage, error) {
 	db, err := gorm.Open(postgres.New(config), &gorm.Config{
 		PrepareStmt: true,
 	})
@@ -32,9 +33,8 @@ func NewPostgresStorage(config postgres.Config) (storage.Storage, error) {
 	sqlDB.SetMaxOpenConns(100)
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
-	fmt.Printf("Postgres Database successful")
-
-	return &PostgresDB{db: db}, nil
+	logger.InfoContext(context.Background(), "Database connection successfully")
+	return &PostgresDB{db: db, logger: logger}, nil
 }
 
 func (p *PostgresDB) CreateChat(ctx context.Context, req *models.CreateChatRequest) (*models.CreateChatResponse, error) {
@@ -46,13 +46,15 @@ func (p *PostgresDB) CreateChat(ctx context.Context, req *models.CreateChatReque
 
 	// Создаем запись в БД
 	if err := p.db.WithContext(ctx).Create(chatRoom).Error; err != nil {
-		return nil, fmt.Errorf("failed to create chat room: %w", err)
+		p.logger.ErrorContext(ctx, "Failed to create chat room", "error", err)
+		return nil, err
 	}
 
 	// Получаем созданную запись (опционально, но полезно для получения полных данных)
 	var createdRoom models.ChatRoom
 	if err := p.db.WithContext(ctx).Where("id = ?", req.RoomID).First(&createdRoom).Error; err != nil {
-		return nil, fmt.Errorf("failed to fetch created chat room: %w", err)
+		p.logger.ErrorContext(ctx, "Failed to fetch created chat room", "error", err)
+		return nil, err
 	}
 
 	// Формируем ответ
@@ -61,5 +63,6 @@ func (p *PostgresDB) CreateChat(ctx context.Context, req *models.CreateChatReque
 		Name:   chatRoom.Name,
 	}
 
+	p.logger.InfoContext(ctx, "Create chat", "room", response.RoomID, "name", response.Name)
 	return response, nil
 }

@@ -2,9 +2,8 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"io"
-	"log"
+	"log/slog"
 
 	"github.com/Lemper29/ChatRoom/chat-service/internal/storage"
 	"github.com/Lemper29/ChatRoom/chat-service/pkg/models"
@@ -13,26 +12,30 @@ import (
 
 type Service struct {
 	pb.UnimplementedChatServiceServer
-	repo storage.Storage
+	logger *slog.Logger
+	repo   storage.Storage
 }
 
-func NewService(repo storage.Storage) *Service {
+func NewService(repo storage.Storage, logger slog.Logger) *Service {
 	return &Service{
-		repo: repo,
+		repo:   repo,
+		logger: &logger,
 	}
 }
 
 func (s *Service) Connect(stream pb.ChatService_ConnectServer) error {
+	ctx := stream.Context()
+
 	for {
 		firstMsg, err := stream.Recv()
 		if err == io.EOF {
+			s.logger.InfoContext(ctx, "Client closed connection")
 			return nil
 		}
 		if err != nil {
+			s.logger.ErrorContext(ctx, "Stream receive error", "error", err)
 			return err
 		}
-
-		log.Printf("Received from %s: %s in RoomId %s", firstMsg.GetUsername(), firstMsg.GetContent(), firstMsg.GetRoomId())
 
 		modelsChatMessage := models.NewChatMessage(
 			firstMsg.RoomId,
@@ -53,7 +56,7 @@ func (s *Service) Connect(stream pb.ChatService_ConnectServer) error {
 		}
 
 		if err := stream.Send(&response); err != nil {
-			log.Printf("Error sending message: %v", err)
+			s.logger.ErrorContext(ctx, "Error sending message", "error", err)
 			return err
 		}
 	}
@@ -69,7 +72,8 @@ func (s *Service) CreateChat(ctx context.Context, req *pb.CreateChatRequest) (*p
 
 	createChat, err := s.repo.CreateChat(ctx, &reqCreateChat)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create chat room: %w", err)
+		s.logger.ErrorContext(ctx, "Failed to create chat room", "error", err)
+		return nil, err
 	}
 
 	resCreateChat := pb.CreateChatResponse{

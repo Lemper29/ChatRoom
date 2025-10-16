@@ -2,7 +2,7 @@ package server
 
 import (
 	"context"
-	"fmt"
+	"log/slog"
 	"net"
 
 	"github.com/Lemper29/ChatRoom/chat-service/internal/service"
@@ -14,29 +14,35 @@ import (
 type Server struct {
 	pb.UnimplementedChatServiceServer
 	service *service.Service
+	logger  *slog.Logger
 	addr    string
 }
 
-func NewGrpcServer(addr string, storage storage.Storage) *Server {
+func NewGrpcServer(addr string, storage storage.Storage, logger *slog.Logger) *Server {
 	return &Server{
 		addr:    addr,
-		service: service.NewService(storage),
+		logger:  logger,
+		service: service.NewService(storage, *logger),
 	}
 }
 
 func (s *Server) Server() error {
+	ctx := context.Background()
+
 	lis, err := net.Listen("tcp", s.addr)
 	if err != nil {
-		return fmt.Errorf("failed to listen: %v", err)
+		s.logger.ErrorContext(ctx, "Failed to listen", "error", err)
+		return err
 	}
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterChatServiceServer(grpcServer, s)
 
-	fmt.Printf("Server starting on %s\n", s.addr)
+	s.logger.InfoContext(ctx, "Server start", "port", s.addr)
 
 	if err := grpcServer.Serve(lis); err != nil {
-		return fmt.Errorf("failed to serve: %v", err)
+		s.logger.ErrorContext(ctx, "Failed to serve", "error", err)
+		return err
 	}
 
 	return nil
