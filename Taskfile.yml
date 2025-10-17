@@ -15,3 +15,7 @@ tasks:
   swagger:
     cmds:
       - protoc -I ./proto --openapiv2_out=allow_merge=true,merge_file_name=api:./gen/go/v1/chatroom/swagger ./proto/chatroom/chatroom.proto
+
+  run-chat-service:
+    cmds:
+      - cd ./chat-service && go run ./cmd/server/main.go
