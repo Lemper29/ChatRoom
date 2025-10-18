@@ -1,9 +1,12 @@
 package service
 
 import (
+	"bytes"
 	"context"
+	"log/slog"
 	"testing"
 
+	"github.com/Lemper29/ChatRoom/chat-service/internal/storage"
 	"github.com/Lemper29/ChatRoom/chat-service/pkg/models"
 	pb "github.com/Lemper29/ChatRoom/gen/go/v1"
 	"github.com/stretchr/testify/assert"
@@ -22,10 +25,16 @@ func (m *MockRepository) CreateChat(ctx context.Context, req *models.CreateChatR
 	return args.Get(0).(*models.CreateChatResponse), args.Error(1)
 }
 
+// Вспомогательная функция для создания сервиса в тестах
+func newTestService(repo storage.Storage) *Service {
+	logger := slog.New(slog.NewTextHandler(&bytes.Buffer{}, nil))
+	return NewService(repo, *logger)
+}
+
 func TestCreateChat_Success(t *testing.T) {
 	// Создаем mock репозитория
 	mockRepo := new(MockRepository)
-	s := NewService(mockRepo)
+	s := newTestService(mockRepo)
 
 	// Подготавливаем тестовые данные
 	testReq := &pb.CreateChatRequest{
@@ -42,7 +51,6 @@ func TestCreateChat_Success(t *testing.T) {
 		Description: testReq.Description,
 	}
 
-	// Исправляем: используем models.CreateChatResponse вместо models.Chat
 	expectedResponse := &models.CreateChatResponse{
 		RoomID: "room-123",
 		Name:   "Test Chat",
@@ -63,12 +71,13 @@ func TestCreateChat_Success(t *testing.T) {
 
 	// Проверяем что mock был вызван с правильными параметрами
 	mockRepo.AssertCalled(t, "CreateChat", mock.Anything, expectedRepoReq)
+	mockRepo.AssertExpectations(t)
 }
 
 func TestCreateChat_RepositoryError(t *testing.T) {
 	// Создаем mock репозитория
 	mockRepo := new(MockRepository)
-	s := NewService(mockRepo)
+	s := newTestService(mockRepo)
 
 	testReq := &pb.CreateChatRequest{
 		RoomId:      "room-123",
@@ -94,13 +103,14 @@ func TestCreateChat_RepositoryError(t *testing.T) {
 	// Проверяем что получили ошибку
 	assert.Error(t, err)
 	assert.Nil(t, res)
-	assert.Contains(t, err.Error(), "failed to create chat")
+	assert.Equal(t, assert.AnError, err) // Проверяем конкретную ошибку
+
+	mockRepo.AssertExpectations(t)
 }
 
-// Дополнительные тесты
 func TestNewService(t *testing.T) {
 	mockRepo := new(MockRepository)
-	service := NewService(mockRepo)
+	service := newTestService(mockRepo)
 
 	assert.NotNil(t, service)
 	assert.Equal(t, mockRepo, service.repo)
