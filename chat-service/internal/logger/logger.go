@@ -4,9 +4,12 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
+
+	"github.com/Lemper29/ChatRoom/chat-service/config"
 )
 
 func New(service string, level slog.Level) *slog.Logger {
+	cfg := config.Envs
 	opts := &slog.HandlerOptions{
 		Level:     slog.LevelDebug,
 		AddSource: true,
@@ -22,7 +25,7 @@ func New(service string, level slog.Level) *slog.Logger {
 	}
 
 	var handler slog.Handler = slog.NewTextHandler(os.Stdout, opts)
-	if "" == "production" {
+	if cfg.Env == "production" {
 		handler = slog.NewJSONHandler(os.Stdout, opts)
 	}
 
