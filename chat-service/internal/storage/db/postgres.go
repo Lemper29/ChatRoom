@@ -40,8 +40,9 @@ func NewPostgresStorage(config postgres.Config, logger *slog.Logger) (storage.St
 func (p *PostgresDB) CreateChat(ctx context.Context, req *models.CreateChatRequest) (*models.CreateChatResponse, error) {
 	// Создаем объект комнаты для БД
 	chatRoom := &models.ChatRoom{
-		ID:   req.RoomID,
-		Name: req.Name,
+		ID:          req.RoomID,
+		Name:        req.Name,
+		Description: req.Description,
 	}
 
 	// Создаем запись в БД

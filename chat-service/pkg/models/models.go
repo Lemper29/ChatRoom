@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	pb "github.com/Lemper29/ChatRoom/gen/go/v1"
+	pb "github.com/Lemper29/ChatRoom/gen/go/v1/chatroom"
 )
 
 type ChatMessage struct {
@@ -18,8 +18,11 @@ type ChatMessage struct {
 }
 
 type ChatRoom struct {
-	ID   string `gorm:"primaryKey" json:"id"`
-	Name string `gorm:"not null" json:"name"`
+	ID          string    `gorm:"primaryKey;type:varchar(255)"`
+	Name        string    `gorm:"type:text;not null"`
+	Description string    `gorm:"type:text"`
+	CreatedBy   string    `gorm:"type:varchar(255);not null"` // Убедитесь что это поле заполняется
+	CreatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 }
 
 type CreateChatRequest struct {
