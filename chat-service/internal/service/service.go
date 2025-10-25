@@ -4,7 +4,6 @@ import (
 	"context"
 	"io"
 	"log/slog"
-	"time"
 
 	"github.com/Lemper29/ChatRoom/chat-service/internal/storage"
 	"github.com/Lemper29/ChatRoom/chat-service/pkg/models"
@@ -64,12 +63,12 @@ func (s *Service) Connect(stream pb.ChatService_ConnectServer) error {
 }
 
 func (s *Service) CreateChat(ctx context.Context, req *pb.CreateChatRequest) (*pb.CreateChatResponse, error) {
-	room := &storage.ChatRoom{
-		ID:          req.RoomId,
+	reqCreateChat := models.CreateChatRequest{
+		RoomID:      req.RoomId,
+		UserID:      req.UserId,
 		Name:        req.Name,
 		Description: req.Description,
-		CreatedBy:   req.UserId, // user_id становится created_by
-		CreatedAt:   time.Now(),
+		CreatedBy:   req.UserId,
 	}
 
 	createChat, err := s.repo.CreateChat(ctx, &reqCreateChat)

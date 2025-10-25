@@ -30,6 +30,7 @@ type CreateChatRequest struct {
 	UserID      string
 	Name        string
 	Description string
+	CreatedBy   string `gorm:"type:varchar(255);not null"` // Убедитесь что это поле заполняется
 }
 
 type CreateChatResponse struct {

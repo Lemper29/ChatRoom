@@ -1,5 +1,5 @@
 -- Обновите up миграцию
-CREATE TABLE IF NOT EXISTS chat_room (
+CREATE TABLE IF NOT EXISTS chat_rooms (
     id VARCHAR(255) PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS chat_message (
     username TEXT NOT NULL,
     content TEXT,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_chat_message_room FOREIGN KEY (room_id) REFERENCES chat_room(id) ON DELETE CASCADE
+    CONSTRAINT fk_chat_message_room FOREIGN KEY (room_id) REFERENCES chat_rooms(id)
 );
 CREATE INDEX IF NOT EXISTS idx_chat_message_room_id ON chat_message(room_id);
 CREATE INDEX IF NOT EXISTS idx_chat_message_timestamp ON chat_message(timestamp);

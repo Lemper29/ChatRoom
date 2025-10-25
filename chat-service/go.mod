@@ -3,7 +3,7 @@ module github.com/Lemper29/ChatRoom/chat-service
 go 1.25.1
 
 require (
-	github.com/Lemper29/ChatRoom v0.1.0
+	github.com/Lemper29/ChatRoom v0.2.0
 	github.com/stretchr/testify v1.11.1
 	google.golang.org/grpc v1.76.0
 	gorm.io/gorm v1.31.0
