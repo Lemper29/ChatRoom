@@ -7,7 +7,7 @@ import (
 
 	"github.com/Lemper29/ChatRoom/chat-service/internal/storage"
 	"github.com/Lemper29/ChatRoom/chat-service/pkg/models"
-	pb "github.com/Lemper29/ChatRoom/gen/go/v1"
+	pb "github.com/Lemper29/ChatRoom/gen/go/v1/chatroom"
 )
 
 type Service struct {
@@ -68,6 +68,7 @@ func (s *Service) CreateChat(ctx context.Context, req *pb.CreateChatRequest) (*p
 		UserID:      req.UserId,
 		Name:        req.Name,
 		Description: req.Description,
+		CreatedBy:   req.UserId,
 	}
 
 	createChat, err := s.repo.CreateChat(ctx, &reqCreateChat)

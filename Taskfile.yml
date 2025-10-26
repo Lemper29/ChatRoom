@@ -1,5 +1,7 @@
 version: '3'
 
+dotenv: ['.env']
+
 tasks:
   grpc:
     cmds:
@@ -19,3 +21,11 @@ tasks:
   run-chat-service:
     cmds:
       - cd ./chat-service && go run ./cmd/server/main.go
+
+  migrate-up:
+    cmds:
+      - cd ./chat-service && migrate -database "postgres://{{.DB_USER}}:{{.DB_PASSWORD}}@{{.DB_HOST}}:{{.DB_PORT}}/{{.DB_NAME}}?sslmode={{.DB_SSLMODE}}" -path {{.MIGRATIONS_PATH}} up
+  
+  migrate-down:
+    cmds:
+      - cd ./chat-service && migrate -database "postgres://{{.DB_USER}}:{{.DB_PASSWORD}}@{{.DB_HOST}}:{{.DB_PORT}}/{{.DB_NAME}}?sslmode={{.DB_SSLMODE}}" -path {{.MIGRATIONS_PATH}} down

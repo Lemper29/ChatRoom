@@ -32,6 +32,7 @@ message CreateChatRequest {
   string user_id = 2;
   string name = 3;
   string description = 4;
+  string created_by = 5;  
 }
 
 message CreateChatResponse {

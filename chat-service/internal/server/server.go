@@ -7,7 +7,7 @@ import (
 
 	"github.com/Lemper29/ChatRoom/chat-service/internal/service"
 	"github.com/Lemper29/ChatRoom/chat-service/internal/storage"
-	pb "github.com/Lemper29/ChatRoom/gen/go/v1"
+	pb "github.com/Lemper29/ChatRoom/gen/go/v1/chatroom"
 	"google.golang.org/grpc"
 )
 

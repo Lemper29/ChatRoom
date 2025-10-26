@@ -8,7 +8,7 @@ import (
 
 	"github.com/Lemper29/ChatRoom/chat-service/internal/storage"
 	"github.com/Lemper29/ChatRoom/chat-service/pkg/models"
-	pb "github.com/Lemper29/ChatRoom/gen/go/v1"
+	pb "github.com/Lemper29/ChatRoom/gen/go/v1/chatroom"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
